@@ -10,9 +10,11 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    header.cpp \
-    readwrite.cpp
+    readwrite.cpp \
+    gerenciador.cpp \
+    cabecalho.cpp
 
 HEADERS += \
-    header.h \
-    readwrite.h
+    readwrite.h \
+    gerenciador.h \
+    cabecalho.h
