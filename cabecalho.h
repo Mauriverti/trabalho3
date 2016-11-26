@@ -12,6 +12,14 @@ public:
     Cabecalho();
 
     char formato[3];        // padrao BIR
+                            // tamanho cluster
+                            // tamanho disco
+                            // qtd cluster
+                            // espaco ocupado?
+                            // espaco livre?
+                            // inicio fat
+                            // tamanho fat?
+                            // inicio data
 
 
 

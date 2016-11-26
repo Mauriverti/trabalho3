@@ -1,75 +1,65 @@
-#include <iostream>
-#include <cstdlib>
-#include <list>
-#include <QByteArray>
-#include <QFile>
-#include <qdebug.h>
+#include <gerenciador.h>
 
-using namespace std;
-
-void criaArquivo(QByteArray b, QString fileDir);
-void montaArquivo(int tamanho, const string tipo);
 
 int main() {
 
-    cout << "ola" << endl;
+    Gerenciador g;
+    
+    int opcao = -1;
+    
+    while (opcao != 0) {
+        system("cls");
+        cout << "Escolha uma opcao" << endl;
+        cout << "1 - Ler disco" << endl;
+        cout << "2 - Formatar disco" << endl;
+        cout << "3 - Acessar disco" << endl;
+        cout << "4 - criar disco" << endl;
+        cin >> opcao;
 
-    list<int> l;
-    list<int>::iterator it;
+        switch(opcao) {
+        case 1:
+//            string nome;
+//            cout << "\tInforme o nome do disco a ser lido: ";
+//            cin >> nome;
+//            g.setNomeDisco(nome);
+            //cout << endl << "lala: " << g.getNomeDisco();
 
-    l.push_back(1);
-    l.push_back(2);
-    l.push_back(3);
-    l.push_back(4);
-    l.push_back(5);
+            break;
+        case 2:
 
+            break;
+        case 3:
 
-    for (it = l.begin(); it != l.end(); it++) {
-        cout << *it << endl;
+            break;
+        case 4:
+            string discoNome;
+            string tipoTamanho;
+            int tamanho;
+            cout << "\tInforme o nome do disco: ";
+            cin >> discoNome;
+            cout << "\n\tInforme o tamanho do disco do disco: ";
+            cin >> tamanho;
+            cout << "\n\tInforme o tipo do tamanho (KB, MB ou GB): ";
+            cin >> tipoTamanho;
+
+            QString _discoNome = QString::fromStdString(discoNome);
+
+            g.criaDisco(_discoNome, tamanho, tipoTamanho);
+            cout << endl;
+            system("pause");
+            break;
+        }
     }
 
-    montaArquivo(8, "MB");
+//            abrir disco
 
+//            formatar disco
+
+//            copiar arquivo pra dentro
+
+//            copiar arquivo pra fora
+
+//            navegar?
 
     return 0;
-}
-
-
-void montaArquivo(int tamanho, const string tipo) {
-    int tamanhoEmKBytes;
-
-    if (tipo == "MB") {
-        tamanhoEmKBytes = tamanho * 1024 * 1024;
-    } else
-    if (tipo =="GB") {
-        tamanhoEmKBytes = tamanho * 1024 * 1024 * 1024;
-    } else
-//    if (tipo == "KB") {
-        tamanhoEmKBytes = tamanho;
-
-    char _1kb[1024];
-    for (int i = 0; i < 1024; i++) {
-        _1kb[i] = 0;
-    }
-
-
-    QByteArray b;
-    for (int i = 0; i < tamanhoEmKBytes/1024; i++) {
-        b.insert(i*1024, (char*) &_1kb , 1024);
-    }
-
-    criaArquivo(b, "disco");
-}
-
-void criaArquivo(QByteArray b, QString fileDir = "disco") {
-
-    QFile file (fileDir);
-    if ( !file.open(QIODevice::WriteOnly) ) {
-        qDebug() << "Nao foi possivel abrir arquivo para salvar";
-        return;
-    }
-
-    file.write(b);
-    file.close();
-
 }
