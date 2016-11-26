@@ -11,9 +11,16 @@ using namespace std;
 
 class ReadWrite {
 
+private:
+    bool validaDiretorio(QString diretorio);
+    bool validaInformacao(QByteArray informacao);
+    QFile* abrirArquivoLeitura(QString diretorio);
+    QFile* abrirArquivoEscrita(QString diretorio);
+
 public:
     ReadWrite();
 
+    QByteArray lerArquivo(QString diretorio);
     void gravaArquivo(QString diretorio, QByteArray informacao);
 };
 

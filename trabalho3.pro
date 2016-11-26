@@ -12,9 +12,11 @@ TEMPLATE = app
 SOURCES += main.cpp \
     readwrite.cpp \
     gerenciador.cpp \
-    cabecalho.cpp
+    cabecalho.cpp \
+    disco.cpp
 
 HEADERS += \
     readwrite.h \
     gerenciador.h \
-    cabecalho.h
+    cabecalho.h \
+    disco.h

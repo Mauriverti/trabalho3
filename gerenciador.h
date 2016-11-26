@@ -1,25 +1,27 @@
 #ifndef GERENCIADOR_H
 #define GERENCIADOR_H
 
-#include <cabecalho.h>
+#include <disco.h>
 #include <readwrite.h>
 
 class Gerenciador {
 
 private:
     QString nomeDisco;
+    ReadWrite rw;
+    Disco disco;
 
-    void criaArquivo(QByteArray b, QString fileDir);
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
     QByteArray criaVetorVazio(int tamanho);
 
 public:
     Gerenciador();
-    bool checaFormato();
-    void criaDisco(QString nome, int tamanho, string tipoTamanho);
-
     string getNomeDisco();
     void setNomeDisco(string nome);
+
+    void abrirDisco();
+    bool checaFormato();
+    void criaDisco(QString nome, int tamanho, string tipoTamanho);
 };
 
 #endif // GERENCIADOR_H

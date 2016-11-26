@@ -8,10 +8,8 @@ using namespace std;
 
 class Cabecalho {
 
-public:
-    Cabecalho();
-
-    char formato[3];        // padrao BIR
+private:
+    string formato;         // string de tamanho 3, padrao BIR
                             // tamanho cluster
                             // tamanho disco
                             // qtd cluster
@@ -20,6 +18,14 @@ public:
                             // inicio fat
                             // tamanho fat?
                             // inicio data
+
+
+public:
+    Cabecalho();
+
+    string getFormato();
+    void setFormato(string formato);
+
 
 
 

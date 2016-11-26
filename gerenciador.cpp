@@ -4,26 +4,37 @@ Gerenciador::Gerenciador() {
 
 }
 
-bool Gerenciador::checaFormato() {
-
-    return true;
-}
-
-void Gerenciador::criaDisco(QString nome, int tamanho, string tipoTamanho) {
-
-    int tamanhoEmKB = getTamanhoEmKBytes(tamanho, tipoTamanho);
-    QByteArray bytes = criaVetorVazio(tamanhoEmKB);
-
-    ReadWrite rw;
-    rw.gravaArquivo(nome, bytes);
-}
-
 string Gerenciador::getNomeDisco() {
     return this->nomeDisco.toStdString();
 }
 
 void Gerenciador::setNomeDisco(string nome) {
     this->nomeDisco = QString::fromStdString(nome);
+}
+
+void Gerenciador::abrirDisco() {
+
+    QByteArray b = rw.lerArquivo(this->nomeDisco);
+    if (b == NULL) return;
+
+    QString tipo = b.mid(0, 3);
+    if ( tipo == "BIR" ) {      // verifica o tipo do arquivo
+        cout << endl << "Disco aberto com sucesso" << endl;
+    } else {
+        cout << endl << "Disco aberto porem NAO FORMATADO" << endl;
+    }
+}
+
+bool Gerenciador::checaFormato() {
+
+    return true;
+}
+
+void Gerenciador::criaDisco(QString nome, int tamanho, string tipoTamanho) {
+    int tamanhoEmKB = getTamanhoEmKBytes(tamanho, tipoTamanho);
+    QByteArray bytes = criaVetorVazio(tamanhoEmKB);
+
+    rw.gravaArquivo(nome, bytes);
 }
 
 QByteArray Gerenciador::criaVetorVazio(int tamanho) {
