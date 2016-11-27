@@ -10,41 +10,39 @@ using namespace std;
 class Cabecalho {
 
 private:
-    string formato;         // string de tamanho 3, padrao BIR
-    int tamanhoCluster;     // tamanho cluster
-    int tamanhoDisco;       // tamanho disco
-                            // qtd cluster
-                            // espaco ocupado?
-                            // espaco livre?
-    int inicioFAT;          // inicio fat
-    int tamanhoFAT;         // tamanho fat?
-    int inicioDados;        // inicio dados
-    int tamanhoDados;       // tamanho dados
+    ushort formato;                 // string de tamanho 3, padrao BIR
+    unsigned int tamanhoCluster;    // tamanho cluster
+    unsigned int tamanhoDisco;      // tamanho disco
+                                    // qtd cluster
+                                    // espaco ocupado?
+                                    // espaco livre?
+    unsigned int inicioFAT;         // inicio fat
+    unsigned int tamanhoFAT;        // tamanho fat?
+    unsigned int inicioDados;       // inicio dados
+    unsigned int tamanhoDados;      // tamanho dados
 
 
 public:
     Cabecalho();
     Cabecalho(QByteArray byteArray);
 
-    string getFormato();
-    void setFormato(string formato);
-    int getTamanhoCluster();
-    void setTamanhoCluster(int tamanhoCluster);
-    int getTamanhoDisco();
-    void setTamanhoDisco(int tamanhoDisco);
-    int getInicioFAT();
-    void setInicioFAT(int inicioFAT);
-    int getTamanhoFAT();
-    void setTamanhoFAT(int tamanhoFAT);
-    int getInicioDados();
-    void setInicioDados(int inicioDados);
-    int getTamanhoDados();
-    void setTamanhoDados(int tamanhoDados);
+    ushort getFormato();
+    void setFormato(ushort formato);
+    uint getTamanhoCluster();
+    void setTamanhoCluster(uint tamanhoCluster);
+    uint getTamanhoDisco();
+    void setTamanhoDisco(uint tamanhoDisco);
+    uint getInicioFAT();
+    void setInicioFAT(uint inicioFAT);
+    uint getTamanhoFAT();
+    void setTamanhoFAT(uint tamanhoFAT);
+    uint getInicioDados();
+    void setInicioDados(uint inicioDados);
+    uint getTamanhoDados();
+    void setTamanhoDados(uint tamanhoDados);
 
-
+    void abrir(QByteArray byteArray);
     QByteArray toByteArray();
-
-
 
 };
 

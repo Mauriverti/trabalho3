@@ -14,8 +14,6 @@ private:
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
     QByteArray criaVetorVazio(int tamanho);
 
-    string FORMATO = "BIR";
-
 public:
     Gerenciador();
     string getNomeDisco();

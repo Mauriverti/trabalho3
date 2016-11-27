@@ -18,16 +18,19 @@ void Gerenciador::abrirDisco(QString nome) {
     if (b == NULL) return;
 
     cout << endl << "Disco aberto com sucesso!";
+
     if (checaFormato(b)) {
         cout << endl << "Disco formatado";
+        disco.abrir(b);
+        rw.gravaArquivo(QString::fromStdString("b"), disco.toByteArray());
     } else {
         cout << endl << "Disco NAO FORMATADO";
     }
 }
 
 bool Gerenciador::checaFormato(QByteArray b) {
-    QString tipo = b.mid(0, 3);
-    if ( tipo == "BIR" ) {      // verifica o tipo do arquivo
+    QString tipo = b.mid(0, 2);
+    if ( tipo == "BI" ) {      // verifica o tipo do arquivo
         return true;
     }
     return false;

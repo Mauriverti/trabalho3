@@ -21,6 +21,7 @@ public:
 
     void formatar(QByteArray b);
     QByteArray toByteArray();
+    void abrir(QByteArray byteArray);
 };
 
 #endif // DISCO_H
