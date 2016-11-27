@@ -14,9 +14,13 @@ private:
 
 public:
     Disco();
+    Disco(QByteArray byteArray);
 
     Cabecalho getCabecalho();
     void setCabecalho(Cabecalho c);
+
+    void formatar(QByteArray b);
+    QByteArray toByteArray();
 };
 
 #endif // DISCO_H
