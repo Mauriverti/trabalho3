@@ -32,6 +32,16 @@ uint Fat::achaPrimeiroLivre() {
     return INT_MAX;
 }
 
+void Fat::formatar() {
+    uint tamanho = tabela.size();
+    char zero = 0;
+    for (uint i = 0; i < tamanho; i++) {
+        tabela.replace(i, 1, (char*) &zero);
+    }
+
+    this->setPosicao(0, -1);
+}
+
 QByteArray Fat::getTable() {
     return this->tabela;
 }

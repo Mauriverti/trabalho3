@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     disco.cpp \
     fat.cpp \
     dados.cpp \
-    padroes.cpp
+    padroes.cpp \
+    entradadiretorio.cpp \
+    diretorio.cpp
 
 HEADERS += \
     readwrite.h \
@@ -25,4 +27,6 @@ HEADERS += \
     disco.h \
     fat.h \
     dados.h \
-    padroes.h
+    padroes.h \
+    entradadiretorio.h \
+    diretorio.h

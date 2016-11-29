@@ -6,10 +6,9 @@ Disco::Disco() {
 
 Disco::Disco(QByteArray byteArray) {
     cabecalho = Cabecalho(byteArray);
-    QByteArray _fat = byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT());
-    cout << endl << "bytearray FAT: " << _fat.size();
-    fat = Fat(_fat);
-    dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
+    fat.formatar();
+//    fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
+//    dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
 }
 
 Cabecalho Disco::getCabecalho() {
@@ -36,4 +35,6 @@ QByteArray Disco::toByteArray() {
 
 void Disco::abrir(QByteArray byteArray) {
     cabecalho.abrir(byteArray);
+    fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
+    dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
 }

@@ -1,18 +1,25 @@
 #ifndef DADOS_H
 #define DADOS_H
 
-#include <iostream>
-#include <cstdlib>
-#include <QByteArray>
+#include <padroes.h>
+#include <diretorio.h>
 
 class Dados {
 
 private:
-QByteArray dados;
+    QByteArray dados;
+    Padroes p;
+
+    void montaDiretorioRaiz();
+    QByteArray montaClusterDiretorio();
+    QByteArray montaClusterArquivo();
+
 
 public:
     Dados();
     Dados(QByteArray byteArray);
+
+    void formatar();
 
     QByteArray getDados();
 

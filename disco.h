@@ -1,8 +1,6 @@
 #ifndef DISCO_H
 #define DISCO_H
 
-#include <iostream>
-#include <cstdlib>
 #include <cabecalho.h>
 #include <fat.h>
 #include <dados.h>

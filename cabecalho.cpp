@@ -4,13 +4,13 @@ Cabecalho::Cabecalho() {}
 
 Cabecalho::Cabecalho(QByteArray byteArray) {
     cout << endl << "tamanho: " << byteArray.size();
-    this->setFormato(p.getSiglaFormato());
-    this->setTamanhoCluster(p.getTamanhoCluster());
+    this->setFormato(p.siglaFormato);
+    this->setTamanhoCluster(p.tamanhoCluster);
     this->setTamanhoDisco(byteArray.size());
-    this->setInicioFAT(p.getTamanhoCabecalho());
-    this->setTamanhoFAT(((this->tamanhoDisco - p.getTamanhoCabecalho())/this->tamanhoCluster)*4);
-    this->setInicioDados(p.getTamanhoCabecalho()+this->tamanhoFAT);
-    this->setTamanhoDados(this->tamanhoDisco-p.getTamanhoCabecalho()-this->tamanhoFAT);
+    this->setInicioFAT(p.tamanhoCabecalho);
+    this->setTamanhoFAT(((this->tamanhoDisco - p.tamanhoCabecalho)/this->tamanhoCluster)*4);
+    this->setInicioDados(p.tamanhoCabecalho+this->tamanhoFAT);
+    this->setTamanhoDados(this->tamanhoDisco-p.tamanhoCabecalho-this->tamanhoFAT);
 
     cout << endl << "formato " <<  this->formato;
     cout << endl << "cluster " << this->tamanhoCluster;

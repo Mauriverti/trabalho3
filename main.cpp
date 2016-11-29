@@ -1,6 +1,5 @@
 #include <gerenciador.h>
 
-
 int main() {
 
     Gerenciador g;
