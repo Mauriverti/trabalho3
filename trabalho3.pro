@@ -16,7 +16,7 @@ SOURCES += main.cpp \
     disco.cpp \
     fat.cpp \
     dados.cpp \
-    cluster.cpp
+    padroes.cpp
 
 HEADERS += \
     readwrite.h \
@@ -25,4 +25,4 @@ HEADERS += \
     disco.h \
     fat.h \
     dados.h \
-    cluster.h
+    padroes.h

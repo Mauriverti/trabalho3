@@ -1,21 +1,24 @@
 #include "cabecalho.h"
 
-const unsigned int clusterSize = 4 * 1024;
-const unsigned int cabecalhoSize = 26;
-const unsigned int FATSize = 512;
-const ushort siglaFormato = (((short)'I') << 8) | 'B';
-
 Cabecalho::Cabecalho() {}
 
 Cabecalho::Cabecalho(QByteArray byteArray) {
     cout << endl << "tamanho: " << byteArray.size();
-    this->setFormato(siglaFormato);
-    this->setTamanhoCluster(clusterSize);
+    this->setFormato(p.getSiglaFormato());
+    this->setTamanhoCluster(p.getTamanhoCluster());
     this->setTamanhoDisco(byteArray.size());
-    this->setInicioFAT(cabecalhoSize);
-    this->setTamanhoFAT(FATSize);
-    this->setInicioDados(cabecalhoSize+FATSize);
-    this->setTamanhoDados(this->getTamanhoDisco()-cabecalhoSize-FATSize);
+    this->setInicioFAT(p.getTamanhoCabecalho());
+    this->setTamanhoFAT(((this->tamanhoDisco - p.getTamanhoCabecalho())/this->tamanhoCluster)*4);
+    this->setInicioDados(p.getTamanhoCabecalho()+this->tamanhoFAT);
+    this->setTamanhoDados(this->tamanhoDisco-p.getTamanhoCabecalho()-this->tamanhoFAT);
+
+    cout << endl << "formato " <<  this->formato;
+    cout << endl << "cluster " << this->tamanhoCluster;
+    cout << endl << "disco " << this->tamanhoDisco;
+    cout << endl << "inicioFAT " << this->inicioFAT;
+    cout << endl << "tamanhoFAT " << this->tamanhoFAT;
+    cout << endl << "dados " << this->inicioDados;
+    cout << endl << "tamanho Dados " << this->tamanhoDados;
 }
 
 ushort Cabecalho::getFormato() {
@@ -27,7 +30,7 @@ void Cabecalho::setFormato(ushort formato) {
 }
 
 uint Cabecalho::getTamanhoCluster() {
-    return this->getTamanhoCluster();
+    return this->tamanhoCluster;
 }
 
 void Cabecalho::setTamanhoCluster(uint tamanhoCluster) {
@@ -43,7 +46,7 @@ void Cabecalho::setTamanhoDisco(uint tamanhoDisco) {
 }
 
 uint Cabecalho::getInicioFAT() {
-    return this->getInicioFAT();
+    return this->inicioFAT;
 }
 
 void Cabecalho::setInicioFAT(uint inicioFAT) {

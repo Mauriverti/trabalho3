@@ -3,23 +3,25 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <QByteArray>
+#include <padroes.h>
 
 using namespace std;
 
 class Cabecalho {
 
 private:
-    ushort formato;                 // string de tamanho 3, padrao BIR
-    unsigned int tamanhoCluster;    // tamanho cluster
-    unsigned int tamanhoDisco;      // tamanho disco
-                                    // qtd cluster
-                                    // espaco ocupado?
-                                    // espaco livre?
-    unsigned int inicioFAT;         // inicio fat
-    unsigned int tamanhoFAT;        // tamanho fat?
-    unsigned int inicioDados;       // inicio dados
-    unsigned int tamanhoDados;      // tamanho dados
+    ushort formato;         // string de tamanho 2, padrao BI
+    uint tamanhoCluster;    // tamanho cluster
+    uint tamanhoDisco;      // tamanho disco
+                            // qtd cluster
+                            // espaco ocupado?
+                            // espaco livre?
+    uint inicioFAT;         // inicio fat
+    uint tamanhoFAT;        // tamanho fat?
+    uint inicioDados;       // inicio dados
+    uint tamanhoDados;      // tamanho dados
+
+    Padroes p;
 
 
 public:

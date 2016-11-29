@@ -3,15 +3,18 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <cluster.h>
+#include <QByteArray>
 
 class Dados {
 
 private:
-
+QByteArray dados;
 
 public:
     Dados();
+    Dados(QByteArray byteArray);
+
+    QByteArray getDados();
 
 };
 

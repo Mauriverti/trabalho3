@@ -41,11 +41,11 @@ void Gerenciador::formatarDisco(QString nome) {
     QByteArray b = rw.lerArquivo(nome);
 
     if (b != NULL) {
-        disco = Disco(b);
+        this->disco = Disco(b);
 
         b = disco.toByteArray();
 
-        rw.gravaArquivo(nome, b);
+        this->rw.gravaArquivo(nome, b);
         cout << endl << "Disco Formatado";
     }
 }

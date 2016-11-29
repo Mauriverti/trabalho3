@@ -1,20 +1,27 @@
 #ifndef FAT_H
 #define FAT_H
 
+#include <cstdlib>
+#include <iostream>
+#include <QByteArray>
+
 using namespace std;
 
 class Fat {
 
 private:
-    uint tamanho;
-    int clusters[];
+    QByteArray tabela;
+
+    uint calculaPosicaoNaTabela(uint posicao);
 
 public:
     Fat();
-    Fat(uint tamanho);
-    void getPosicao(uint posicao);
+    Fat(QByteArray tabela);
+    int getPosicao(uint posicao);
     void setPosicao(uint posicao, int valor);
     uint achaPrimeiroLivre();
+
+    QByteArray getTable();
 
 };
 

@@ -13,6 +13,8 @@ class Disco {
 
 private:
     Cabecalho cabecalho;
+    Fat fat;
+    Dados dados;
 
 public:
     Disco();
