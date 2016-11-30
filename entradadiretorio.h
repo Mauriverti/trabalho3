@@ -13,16 +13,19 @@ class EntradaDiretorio {
 private:
     static Padroes p;
 
-    string nome;
-    string extensao;
+    char* nome;
+    char* extensao;
     uint primeiroCluster;
     bool ehAarquivo;            // true se for arquivo, false se for pasta
 
-    string cortaString(string str, uint tamanhoMaximo);
+    string normalizaString(string str, uint tamanhoMaximo);
+    char* string2charVet(string str, uint tamanho);
+
+    char* parseNome(string str, uint tamanho);
 
 public:
     EntradaDiretorio();
-    EntradaDiretorio(string nome, string extensao, uint primeiroCluster, bool ehArquivo);
+    EntradaDiretorio(char* nome, char* extensao, uint primeiroCluster, bool ehArquivo);
 
     QByteArray toByteArray();
 };

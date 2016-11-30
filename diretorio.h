@@ -2,6 +2,7 @@
 #define DIRETORIO_H
 
 #include <entradadiretorio.h>
+#include <QList>
 
 class Diretorio {
 
@@ -10,11 +11,17 @@ private:
 
     uint clusterAtual;
     uint clusterPai;
-    EntradaDiretorio entradas[p.quantidadeEntradasDiretorio];
+    QList<EntradaDiretorio> entradas;
+
+    QByteArray entradasToByteArray();
+    QByteArray completaLista();
+    QByteArray geraEntradaVazia();
 
 public:
     Diretorio();
     Diretorio(uint atual, uint pai);
+
+    QByteArray toByteArray();
 };
 
 #endif // DIRETORIO_H

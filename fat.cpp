@@ -39,7 +39,7 @@ void Fat::formatar() {
         tabela.replace(i, 1, (char*) &zero);
     }
 
-    this->setPosicao(0, -1);
+    this->setPosicao(0, -1);    // marca o diretorio raiz como ocupado
 }
 
 QByteArray Fat::getTable() {

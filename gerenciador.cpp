@@ -21,11 +21,10 @@ void Gerenciador::abrirDisco(QString nome) {
 
     if (checaFormato(b)) {
         cout << endl << "Disco formatado";
-        disco.abrir(b);
-        rw.gravaArquivo(QString::fromStdString("b"), disco.toByteArray());
     } else {
         cout << endl << "Disco NAO FORMATADO";
     }
+    disco.abrir(b);
 }
 
 bool Gerenciador::checaFormato(QByteArray b) {

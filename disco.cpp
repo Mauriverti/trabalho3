@@ -9,6 +9,7 @@ Disco::Disco(QByteArray byteArray) {
     fat.formatar();
 //    fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
 //    dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
+    dados.formatar();
 }
 
 Cabecalho Disco::getCabecalho() {

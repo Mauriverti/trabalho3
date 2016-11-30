@@ -10,10 +10,10 @@ private:
     QByteArray dados;
     Padroes p;
 
-    void montaDiretorioRaiz();
-    QByteArray montaClusterDiretorio();
+    QByteArray montaClusterDiretorio(uint cluster, uint pai);
     QByteArray montaClusterArquivo();
 
+    uint calculaPosicao(uint posicao);
 
 public:
     Dados();
@@ -22,6 +22,9 @@ public:
     void formatar();
 
     QByteArray getDados();
+    
+    QByteArray getCluster(uint posicao);
+    void setCluster(uint posicao, QByteArray byteArray);
 
 };
 
