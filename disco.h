@@ -22,8 +22,9 @@ public:
     void setCabecalho(Cabecalho c);
 
     void formatar(QByteArray b);
+    void formatar();
     QByteArray toByteArray();
-    void abrir(QByteArray byteArray);
+    void abrir(QByteArray byteArray, bool formatado);
 };
 
 #endif // DISCO_H

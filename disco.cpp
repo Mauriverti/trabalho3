@@ -20,6 +20,11 @@ void Disco::setCabecalho(Cabecalho c) {
     this->cabecalho = c;
 }
 
+void Disco::formatar() {
+    fat.formatar();
+    dados.formatar();
+}
+
 QByteArray Disco::toByteArray() {
     cout << endl << "toByteArray";
     QByteArray b;
@@ -34,8 +39,11 @@ QByteArray Disco::toByteArray() {
     return b;
 }
 
-void Disco::abrir(QByteArray byteArray) {
-    cabecalho.abrir(byteArray);
+void Disco::abrir(QByteArray byteArray, bool formatado) {
+    if (formatado)
+        cabecalho.abrir(byteArray);
+    else
+        cabecalho = Cabecalho(byteArray);
     fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
     dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
 }

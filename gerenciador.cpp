@@ -21,10 +21,11 @@ void Gerenciador::abrirDisco(QString nome) {
 
     if (checaFormato(b)) {
         cout << endl << "Disco formatado";
+        disco.abrir(b, true);
     } else {
         cout << endl << "Disco NAO FORMATADO";
+        disco.abrir(b, false);
     }
-    disco.abrir(b);
 }
 
 bool Gerenciador::checaFormato(QByteArray b) {
@@ -37,16 +38,15 @@ bool Gerenciador::checaFormato(QByteArray b) {
 }
 
 void Gerenciador::formatarDisco(QString nome) {
-    QByteArray b = rw.lerArquivo(nome);
+//    QByteArray b = rw.lerArquivo(nome);
 
-    if (b != NULL) {
-        this->disco = Disco(b);
+    //this->disco = Disco(b);
+    this->disco.formatar();
 
-        b = disco.toByteArray();
+    QByteArray b = disco.toByteArray();
 
-        this->rw.gravaArquivo(nome, b);
-        cout << endl << "Disco Formatado";
-    }
+    this->rw.gravaArquivo(nome, b);
+    cout << endl << "Disco Formatado";
 }
 
 void Gerenciador::criaDisco(QString nome, int tamanho, string tipoTamanho) {
