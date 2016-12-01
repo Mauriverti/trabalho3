@@ -62,10 +62,6 @@ int main() {
     }
 
 
-//            abrir disco
-
-//            formatar disco
-
 //            copiar arquivo pra dentro
 
 //            copiar arquivo pra fora

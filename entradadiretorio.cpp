@@ -55,6 +55,9 @@ QByteArray EntradaDiretorio::toByteArray() {
     b.insert(deslocamento, (char*) &this->primeiroCluster, 4);
     deslocamento += 4;
 
+    b.insert(deslocamento, (char*) &this->tamanhoArquivo, 4);
+    deslocamento += 4;
+
     b.insert(deslocamento, (char*) &this->ehAarquivo, 1);
 
     return b;

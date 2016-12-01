@@ -20,7 +20,9 @@ int Fat::getPosicao(uint posicao) {
 }
 
 void Fat::setPosicao(uint posicao, int valor) {
-    this->tabela.replace(calculaPosicaoNaTabela(posicao), 4, (char*) &valor);
+    QByteArray bvalor;
+    bvalor.insert(0, (char*) &valor, 4);
+    this->tabela.replace(calculaPosicaoNaTabela(posicao), 4, bvalor);
 }
 
 uint Fat::achaPrimeiroLivre() {
@@ -34,9 +36,13 @@ uint Fat::achaPrimeiroLivre() {
 
 void Fat::formatar() {
     uint tamanho = tabela.size();
-    char zero = 0;
+
+    char czero = 0;
+    QByteArray bzero;
+    bzero.insert(0, (char*) &czero, 1);
+
     for (uint i = 0; i < tamanho; i++) {
-        tabela.replace(i, 1, (char*) &zero);
+        tabela.replace(i, 1, bzero);
     }
 
     this->setPosicao(0, -1);    // marca o diretorio raiz como ocupado

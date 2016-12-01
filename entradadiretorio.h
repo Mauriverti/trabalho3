@@ -13,11 +13,11 @@ class EntradaDiretorio {
 private:
     static Padroes p;
 
-    char* nome;
-    char* extensao;
+    char* nome;                 // [16]
+    char* extensao;             // [3]
     uint primeiroCluster;
+    uint tamanhoArquivo;
     bool ehAarquivo;            // true se for arquivo, false se for pasta
-
     string normalizaString(string str, uint tamanhoMaximo);
     char* string2charVet(string str, uint tamanho);
 
