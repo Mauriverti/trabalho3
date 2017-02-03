@@ -30,6 +30,33 @@ Diretorio::Diretorio(uint atual, uint pai) {
     this->clusterPai = pai;
 }
 
+Diretorio::Diretorio(QByteArray byteArray) {
+    cout << endl << "log - Abrir diretorio";
+    uint deslocamento = 0;
+    this->clusterAtual = *((uint *) byteArray.mid(deslocamento,4).data());
+    deslocamento += 4;
+    this->clusterPai =   *((uint *) byteArray.mid(deslocamento,4).data());
+    deslocamento += 4;
+
+    for (uint i = 0; i < p.quantidadeEntradasDiretorio; i++) {
+        EntradaDiretorio ed = EntradaDiretorio(byteArray.mid(deslocamento,p.tamanhoEntradaDiretorio));
+
+        if (!ed.entradaValida()) {
+            break;
+        }
+
+        this->entradas.append(ed);
+        deslocamento += p.tamanhoEntradaDiretorio;
+    }
+}
+
+void Diretorio::exibeConteudo() {
+    cout << endl << "log - Exibe Conteudo";
+    for (EntradaDiretorio ed: this->entradas) {
+        cout << ed.toString();
+    }
+}
+
 QByteArray Diretorio::toByteArray() {
     cout << endl << "Diretorio toByteArray";
     QByteArray b;

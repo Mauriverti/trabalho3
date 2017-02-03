@@ -21,6 +21,9 @@ public:
     Cabecalho getCabecalho();
     void setCabecalho(Cabecalho c);
 
+    Fat getFat();
+    Dados getDados();
+
     void formatar(QByteArray b);
     void formatar();
     QByteArray toByteArray();

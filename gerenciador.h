@@ -14,6 +14,8 @@ private:
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
     QByteArray criaVetorVazio(int tamanho);
 
+    void exibirPadrao();
+
 public:
     Gerenciador();
     string getNomeDisco();
@@ -23,6 +25,8 @@ public:
     bool checaFormato(QByteArray b);
     void formatarDisco(QString nome);
     void criaDisco(QString nome, int tamanho, string tipoTamanho);
+
+    void exibirDiretorio(uint posicaoCluster);
 };
 
 #endif // GERENCIADOR_H

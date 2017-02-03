@@ -34,6 +34,11 @@ int main() {
                 break;
             }
             case 3: {
+                if (nome.empty()) {
+                    cout << endl << "Nenhum disco aberto!";
+                } else {
+                    g.exibirDiretorio(0);
+                }
 
 
                 break;

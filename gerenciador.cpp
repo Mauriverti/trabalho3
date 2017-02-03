@@ -38,9 +38,7 @@ bool Gerenciador::checaFormato(QByteArray b) {
 }
 
 void Gerenciador::formatarDisco(QString nome) {
-//    QByteArray b = rw.lerArquivo(nome);
 
-    //this->disco = Disco(b);
     this->disco.formatar();
 
     QByteArray b = disco.toByteArray();
@@ -54,6 +52,17 @@ void Gerenciador::criaDisco(QString nome, int tamanho, string tipoTamanho) {
     QByteArray bytes = criaVetorVazio(tamanhoEmKB);
 
     rw.gravaArquivo(nome, bytes);
+}
+
+void Gerenciador::exibirDiretorio(uint posicaoCluster) {
+    int statusCluster = disco.getFat().getPosicao(posicaoCluster);
+    if (statusCluster == 0) {
+        cout << endl << "ERRO: cluster vazio";
+    } else {
+        exibirPadrao();
+        Diretorio cluster = Diretorio(disco.getDados().getCluster(posicaoCluster));
+        cluster.exibeConteudo();
+    }
 }
 
 QByteArray Gerenciador::criaVetorVazio(int tamanho) {
@@ -71,6 +80,12 @@ QByteArray Gerenciador::criaVetorVazio(int tamanho) {
     }
 
     return b;
+}
+
+void Gerenciador::exibirPadrao() {
+    cout << endl << "nome\t\t\ttamanho";
+    cout << endl << ".";
+    cout << endl << "..";
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {

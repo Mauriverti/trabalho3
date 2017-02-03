@@ -26,6 +26,10 @@ private:
 public:
     EntradaDiretorio();
     EntradaDiretorio(char* nome, char* extensao, uint primeiroCluster, bool ehArquivo);
+    EntradaDiretorio(QByteArray byteArray);
+
+    bool entradaValida();
+    string toString();
 
     QByteArray toByteArray();
 };

@@ -9,6 +9,51 @@ EntradaDiretorio::EntradaDiretorio(char *nome, char *extensao, uint primeiroClus
     this->ehAarquivo = ehArquivo;
 }
 
+EntradaDiretorio::EntradaDiretorio(QByteArray byteArray) {
+    if (byteArray.size() != p.tamanhoEntradaDiretorio) {
+        cout << endl << "ERRO - entrada diretorio invalida";
+        return;
+    }
+
+    uint deslocamento = 0;
+    this->nome = &*((char *) byteArray.mid(deslocamento, p.tamanhoNomeArquivo).data());
+    //this->nome = *((char*) byteArray.mid(deslocamento,p.tamanhoNomeArquivo).data());
+    deslocamento += p.tamanhoNomeArquivo;
+    this->extensao = &*((char *) byteArray.mid(deslocamento, p.tamanhoExtensaoArquivo).data());
+//    this->extensao = *((char*) byteArray.mid(deslocamento,p.tamanhoExtensaoArquivo).data());
+    deslocamento += p.tamanhoExtensaoArquivo;
+    this->primeiroCluster = *((uint *) byteArray.mid(deslocamento,4).data());
+    deslocamento += 4;
+    this->tamanhoArquivo = *((uint *) byteArray.mid(deslocamento,4).data());
+    deslocamento += 4;
+    this->ehAarquivo = *((char *) byteArray.mid(deslocamento,1).data());
+
+}
+
+bool EntradaDiretorio::entradaValida() {
+
+
+
+    return false;
+}
+
+string EntradaDiretorio::toString() {
+    string str(this->nome);
+    if (this->ehAarquivo) {
+        string ext(this->extensao);      // gambiarra pra converter char* em string
+        str +=  "." + ext
+                + "\t\t1c: " + to_string(this->primeiroCluster)
+                + "\t\ttamanho: " + to_string(this->tamanhoArquivo) + " bytes"
+                + "\n";
+    }
+    else {
+        str +=  "\t\t1cluster: " + to_string(this->primeiroCluster)
+                + "\n";
+    }
+
+    return str;
+}
+
 string EntradaDiretorio::normalizaString(string str, uint tamanho) {
 
     uint comprimento = str.length();

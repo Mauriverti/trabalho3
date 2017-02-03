@@ -20,7 +20,9 @@ private:
 public:
     Diretorio();
     Diretorio(uint atual, uint pai);
+    Diretorio(QByteArray byteArray);
 
+    void exibeConteudo();
     QByteArray toByteArray();
 };
 

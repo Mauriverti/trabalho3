@@ -7,8 +7,6 @@ Disco::Disco() {
 Disco::Disco(QByteArray byteArray) {
     cabecalho = Cabecalho(byteArray);
     fat.formatar();
-//    fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
-//    dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
     dados.formatar();
 }
 
@@ -18,6 +16,14 @@ Cabecalho Disco::getCabecalho() {
 
 void Disco::setCabecalho(Cabecalho c) {
     this->cabecalho = c;
+}
+
+Fat Disco::getFat() {
+    return this->fat;
+}
+
+Dados Disco::getDados() {
+    return this->dados;
 }
 
 void Disco::formatar() {
