@@ -62,6 +62,70 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
         exibirPadrao();
         Diretorio cluster = Diretorio(disco.getDados().getCluster(posicaoCluster));
         cluster.exibeConteudo();
+
+
+//        aki
+        //    FAZER MENU AQUI, FAZER COPIA DE ARQUIVO PRA DENTRO E PRA FORA
+
+        int opcao = -1;
+        while (opcao != 0) {
+        cout << endl << "Opções";
+        cout << endl << "0 - Voltar para menu principal";
+        cout << endl << "1 - Abrir pasta";
+        cout << endl << "2 - Voltar pasta";
+        cout << endl << "3 - Add arquivo";
+        cout << endl << "4 - Criar pasta";
+        cin >> opcao;
+
+        switch (opcao) {
+            case 1: {
+                cout << "\tInforme o indice da pasta a ser aberta: ";
+                int indice;
+                cin >> indice;
+
+                QList<EntradaDiretorio> entradas = cluster.getEntradas();
+                EntradaDiretorio ed = entradas.at(indice);
+                uint fatPos = ed.getPrimeiroCluster();
+                this->exibirDiretorio(fatPos);
+
+                //this->entradas.a
+
+                // pegar endereco cluster de destino
+                // abrir endereco
+                break;
+            }
+            case 2: {
+                cout << endl;
+                // pegar endereco cluster destino (pasta pai)
+                // abrir endereco
+                break;
+            }
+            case 3: {
+                // digitar endereco arquivo
+                // carregar tamanho do arquivo
+                // contar clusters
+                // achar clusters vazios
+                // quebrar arquivo em clusters
+                // jogar no lugar certo
+                // arrumar fat
+                break;
+            }
+            case 4: {
+                // informar nome
+                // achar cluster vazio
+                // criar nova pasta
+                // setar cluster
+                break;
+            }
+        }
+
+
+        }
+        // criar pasta
+
+
+
+
     }
 }
 

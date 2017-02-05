@@ -22,6 +22,8 @@ public:
     Diretorio(uint atual, uint pai);
     Diretorio(QByteArray byteArray);
 
+    QList<EntradaDiretorio> getEntradas();
+
     void exibeConteudo();
     QByteArray toByteArray();
 };

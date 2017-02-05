@@ -50,10 +50,17 @@ Diretorio::Diretorio(QByteArray byteArray) {
     }
 }
 
+QList<EntradaDiretorio> Diretorio::getEntradas() {
+    return this->entradas;
+}
+
 void Diretorio::exibeConteudo() {
     cout << endl << "log - Exibe Conteudo";
-    for (EntradaDiretorio ed: this->entradas) {
-        cout << ed.toString();
+
+    for (int i = 0; i < this->entradas.size(); i++) {
+        EntradaDiretorio ed = this->entradas.at(i);
+        cout << endl << i << " - " << ed.toString();
+
     }
 }
 

@@ -54,6 +54,10 @@ string EntradaDiretorio::toString() {
     return str;
 }
 
+uint EntradaDiretorio::getPrimeiroCluster() {
+    return this->primeiroCluster;
+}
+
 string EntradaDiretorio::normalizaString(string str, uint tamanho) {
 
     uint comprimento = str.length();

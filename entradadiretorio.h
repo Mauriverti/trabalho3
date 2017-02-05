@@ -31,6 +31,8 @@ public:
     bool entradaValida();
     string toString();
 
+    uint getPrimeiroCluster();
+
     QByteArray toByteArray();
 };
 
