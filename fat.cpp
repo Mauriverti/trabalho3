@@ -34,6 +34,17 @@ uint Fat::achaPrimeiroLivre() {
     return INT_MAX;
 }
 
+bool Fat::temEspaco(int qtdClusters) {
+    int tamanho = this->tabela.size();
+    int posicoesLivres = 0;
+    for (uint i = 0; i < tamanho || posicoesLivres == qtdClusters; i++) {
+        int valor = getPosicao(i);
+        if (valor == 0) posicoesLivres++;
+    }
+    if (posicoesLivres >= qtdClusters) return true;
+    return false;
+}
+
 void Fat::formatar() {
     uint tamanho = tabela.size();
 

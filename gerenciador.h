@@ -10,11 +10,16 @@ private:
     QString nomeDisco;
     ReadWrite rw;
     Disco disco;
+    static Padroes p;
 
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
-    QByteArray criaVetorVazio(int tamanho);
+    QByteArray criaVetorVazio(int tamanho, bool emKb);
 
     void exibirPadrao();
+    int calculaCluster(int tamanhoArq);
+    void gravaArq(QByteArray arquivo);
+    QList<QByteArray> fragmentaArquivo(QByteArray arquivo);
+    QByteArray preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal);
 
 public:
     Gerenciador();

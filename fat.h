@@ -21,6 +21,7 @@ public:
     void setPosicao(uint posicao, int valor);
     uint achaPrimeiroLivre();
 
+    bool temEspaco(int qtdClusters);
     void formatar();
     QByteArray getTable();
 

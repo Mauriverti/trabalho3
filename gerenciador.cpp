@@ -49,7 +49,7 @@ void Gerenciador::formatarDisco(QString nome) {
 
 void Gerenciador::criaDisco(QString nome, int tamanho, string tipoTamanho) {
     int tamanhoEmKB = getTamanhoEmKBytes(tamanho, tipoTamanho);
-    QByteArray bytes = criaVetorVazio(tamanhoEmKB);
+    QByteArray bytes = criaVetorVazio(tamanhoEmKB, true);
 
     rw.gravaArquivo(nome, bytes);
 }
@@ -69,7 +69,6 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
 
         int opcao = -1;
         while (opcao != 0) {
-        cout << endl << "Opções";
         cout << endl << "0 - Voltar para menu principal";
         cout << endl << "1 - Abrir pasta";
         cout << endl << "2 - Voltar pasta";
@@ -101,13 +100,11 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                 break;
             }
             case 3: {
-                // digitar endereco arquivo
-                // carregar tamanho do arquivo
-                // contar clusters
-                // achar clusters vazios
-                // quebrar arquivo em clusters
-                // jogar no lugar certo
-                // arrumar fat
+                cout << "Informe o nome do arquivo: ";
+                string arqNome;
+                cin >> arqNome;
+                QByteArray arq = rw.lerArquivo(QString::fromStdString(arqNome));
+                gravaArq(arq);
                 break;
             }
             case 4: {
@@ -129,18 +126,26 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
     }
 }
 
-QByteArray Gerenciador::criaVetorVazio(int tamanho) {
+QByteArray Gerenciador::criaVetorVazio(int tamanho, bool emKb) {
 
-    // monta vetor de 1K vazio
-    char _1kb[1024];
-    for (int i = 0; i < 1024; i++) {
-        _1kb[i] = 0;
-    }
-
-    // cria vetor do tamanho especificado
     QByteArray b;
-    for (int i = 0; i < tamanho/1024; i++) {
-        b.insert(i*1024, (char*) &_1kb , 1024);
+    if (emKb) {
+        // monta vetor de 1K vazio
+        char _1kb[1024];
+        for (int i = 0; i < 1024; i++) {
+            _1kb[i] = 0;
+        }
+
+        // cria vetor do tamanho especificado
+        for (int i = 0; i < tamanho/1024; i++) {
+            b.insert(i*1024, (char*) &_1kb , 1024);
+        }
+    } else {
+        char _1b = 0;
+
+        for (int i = 0; i < tamanho; i++) {
+            b.insert(i, (char*) &_1b, 1);
+        }
     }
 
     return b;
@@ -150,6 +155,53 @@ void Gerenciador::exibirPadrao() {
     cout << endl << "nome\t\t\ttamanho";
     cout << endl << ".";
     cout << endl << "..";
+}
+
+int Gerenciador::calculaCluster(int tamanhoArq) {
+    int numeroClusters = tamanhoArq/this->p.tamanhoCluster;
+    if (tamanhoArq%this->p.tamanhoCluster != 0) numeroClusters++;
+    return numeroClusters;
+}
+
+void Gerenciador::gravaArq(QByteArray arquivo) {
+    int tamanhoArq = arquivo.size();
+    int qtdCluster = calculaCluster(tamanhoArq);
+    if (!this->disco.getFat().temEspaco(qtdCluster)) {
+        cout << endl << "Nao ha espaco suficiente no disco";
+        return;
+    }
+    QList<QByteArray> arquivoFragmentado = fragmentaArquivo(arquivo);
+    AKI
+    // montar cabecalho do arquivo
+    // inserir na pasta o cabecalho
+    // preencher fat
+    // arrumar fat
+}
+
+QList<QByteArray> Gerenciador::fragmentaArquivo(QByteArray arquivo) {
+    QList<QByteArray> arquivoFragmentado;
+
+    int tamanho = arquivo.size();
+    int qtdCluster = calculaCluster(tamanho);
+    int pos = 0;
+    for (int i = 0; i < (qtdCluster-1); i++) {
+        QByteArray fragmento = arquivo.mid(pos, p.tamanhoCluster);
+        arquivoFragmentado.append(fragmento);
+        pos += p.tamanhoCluster;
+    }
+
+    QByteArray fragmentoFinal = arquivo.mid(pos);
+
+    fragmentoFinal = preencheCluster(fragmentoFinal, fragmentoFinal.size(), p.tamanhoCluster);
+
+    arquivoFragmentado.append(fragmentoFinal);
+
+    return arquivoFragmentado;
+}
+
+QByteArray Gerenciador::preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal) {
+    int tamanho = tamanhoFinal-tamanhoAtual;
+    return ba.append(criaVetorVazio(tamanho, false));
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {
