@@ -54,6 +54,10 @@ QList<EntradaDiretorio> Diretorio::getEntradas() {
     return this->entradas;
 }
 
+void Diretorio::addEntrada(EntradaDiretorio ed) {
+    this->entradas.append(ed);
+}
+
 void Diretorio::exibeConteudo() {
     cout << endl << "log - Exibe Conteudo";
 

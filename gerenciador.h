@@ -11,15 +11,17 @@ private:
     ReadWrite rw;
     Disco disco;
     static Padroes p;
+    Diretorio diretorioAtual;
 
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
     QByteArray criaVetorVazio(int tamanho, bool emKb);
 
     void exibirPadrao();
     int calculaCluster(int tamanhoArq);
-    void gravaArq(QByteArray arquivo);
+    void addArquivo(QByteArray arquivo, string nomeArquivo);
     QList<QByteArray> fragmentaArquivo(QByteArray arquivo);
     QByteArray preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal);
+    EntradaDiretorio criaEntradaArquivo(QByteArray arquivo, QString nome, int cluster);
 
 public:
     Gerenciador();

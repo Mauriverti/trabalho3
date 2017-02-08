@@ -2,9 +2,10 @@
 
 EntradaDiretorio::EntradaDiretorio() {}
 
-EntradaDiretorio::EntradaDiretorio(char *nome, char *extensao, uint primeiroCluster, bool ehArquivo) {
+EntradaDiretorio::EntradaDiretorio(const char *nome, const char *extensao, uint tamanhoArquivo, uint primeiroCluster, bool ehArquivo) {
     this->nome = parseNome(nome, p.tamanhoNomeArquivo);
     this->extensao = parseNome(extensao, p.tamanhoExtensaoArquivo);
+    this->tamanhoArquivo = tamanhoArquivo;
     this->primeiroCluster = primeiroCluster;
     this->ehAarquivo = ehArquivo;
 }

@@ -60,11 +60,9 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
         cout << endl << "ERRO: cluster vazio";
     } else {
         exibirPadrao();
-        Diretorio cluster = Diretorio(disco.getDados().getCluster(posicaoCluster));
-        cluster.exibeConteudo();
+        this->diretorioAtual = Diretorio(disco.getDados().getCluster(posicaoCluster));
+        this->diretorioAtual.exibeConteudo();
 
-
-//        aki
         //    FAZER MENU AQUI, FAZER COPIA DE ARQUIVO PRA DENTRO E PRA FORA
 
         int opcao = -1;
@@ -74,6 +72,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
         cout << endl << "2 - Voltar pasta";
         cout << endl << "3 - Add arquivo";
         cout << endl << "4 - Criar pasta";
+        cout << endl;
         cin >> opcao;
 
         switch (opcao) {
@@ -82,7 +81,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                 int indice;
                 cin >> indice;
 
-                QList<EntradaDiretorio> entradas = cluster.getEntradas();
+                QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
                 EntradaDiretorio ed = entradas.at(indice);
                 uint fatPos = ed.getPrimeiroCluster();
                 this->exibirDiretorio(fatPos);
@@ -104,7 +103,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                 string arqNome;
                 cin >> arqNome;
                 QByteArray arq = rw.lerArquivo(QString::fromStdString(arqNome));
-                gravaArq(arq);
+                addArquivo(arq, arqNome);
                 break;
             }
             case 4: {
@@ -163,7 +162,9 @@ int Gerenciador::calculaCluster(int tamanhoArq) {
     return numeroClusters;
 }
 
-void Gerenciador::gravaArq(QByteArray arquivo) {
+void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
+
+
     int tamanhoArq = arquivo.size();
     int qtdCluster = calculaCluster(tamanhoArq);
     if (!this->disco.getFat().temEspaco(qtdCluster)) {
@@ -171,9 +172,23 @@ void Gerenciador::gravaArq(QByteArray arquivo) {
         return;
     }
     QList<QByteArray> arquivoFragmentado = fragmentaArquivo(arquivo);
-    AKI
-    // montar cabecalho do arquivo
-    // inserir na pasta o cabecalho
+
+    int posCluster = this->disco.getFat().achaPrimeiroLivre();
+    EntradaDiretorio ed = criaEntradaArquivo(arquivo, QString::fromStdString(nomeArquivo), posCluster);
+
+    this->diretorioAtual.addEntrada(ed);
+
+    int posProxCluster;
+    for (int i = 0; i < qtdCluster; i++) {
+        this->disco.getFat().setPosicao(posCluster, -1);
+        this->disco.getDados().setCluster(posCluster, arquivoFragmentado.at(i));
+        if (i <(qtdCluster-1)) {
+            posProxCluster = this->disco.getFat().achaPrimeiroLivre();
+            this->disco.getFat().setPosicao(posCluster, posProxCluster);
+            posCluster = posProxCluster;
+        }
+    }
+
     // preencher fat
     // arrumar fat
 }
@@ -202,6 +217,15 @@ QList<QByteArray> Gerenciador::fragmentaArquivo(QByteArray arquivo) {
 QByteArray Gerenciador::preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal) {
     int tamanho = tamanhoFinal-tamanhoAtual;
     return ba.append(criaVetorVazio(tamanho, false));
+}
+
+EntradaDiretorio Gerenciador::criaEntradaArquivo(QByteArray arquivo, QString nomeArq, int cluster) {
+    int splitPos = nomeArq.lastIndexOf('.');
+    const char* nome = nomeArq.left(splitPos).toStdString().c_str();
+    const char* extensao = nomeArq.mid(splitPos+1).toStdString().c_str();
+    EntradaDiretorio ed(nome, extensao, arquivo.size(), cluster, true);
+
+    return ed;
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {

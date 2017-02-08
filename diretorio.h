@@ -23,6 +23,7 @@ public:
     Diretorio(QByteArray byteArray);
 
     QList<EntradaDiretorio> getEntradas();
+    void addEntrada(EntradaDiretorio ed);
 
     void exibeConteudo();
     QByteArray toByteArray();
