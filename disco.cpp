@@ -18,6 +18,10 @@ void Disco::setCabecalho(Cabecalho c) {
     this->cabecalho = c;
 }
 
+void Disco::setFat(Fat fat) {
+    this->fat = fat;
+}
+
 Fat Disco::getFat() {
     return this->fat;
 }
@@ -52,4 +56,16 @@ void Disco::abrir(QByteArray byteArray, bool formatado) {
         cabecalho = Cabecalho(byteArray);
     fat = Fat(byteArray.mid(cabecalho.getInicioFAT(), cabecalho.getTamanhoFAT()));
     dados = Dados(byteArray.mid(cabecalho.getInicioDados()));
+}
+
+void Disco::setPosicaoFat(int posicao, int valor) {
+    this->fat.setPosicao(posicao, valor);
+}
+
+void Disco::setClusterDados(int posicao, QByteArray dados) {
+    this->dados.setCluster(posicao, dados);
+}
+
+void Disco::mostraFat() {
+    this->fat.exibeFat();
 }

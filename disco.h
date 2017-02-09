@@ -20,6 +20,7 @@ public:
 
     Cabecalho getCabecalho();
     void setCabecalho(Cabecalho c);
+    void setFat(Fat fat);
 
     Fat getFat();
     Dados getDados();
@@ -28,6 +29,11 @@ public:
     void formatar();
     QByteArray toByteArray();
     void abrir(QByteArray byteArray, bool formatado);
+
+    void setPosicaoFat(int posicao, int valor);
+    void setClusterDados(int posicao, QByteArray dados);
+
+    void mostraFat();
 };
 
 #endif // DISCO_H

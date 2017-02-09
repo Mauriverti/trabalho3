@@ -16,6 +16,7 @@ void Gerenciador::abrirDisco(QString nome) {
 
     QByteArray b = rw.lerArquivo(nome);
     if (b == NULL) return;
+    this->nomeDisco = nome;
 
     cout << endl << "Disco aberto com sucesso!";
 
@@ -67,60 +68,60 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
 
         int opcao = -1;
         while (opcao != 0) {
-        cout << endl << "0 - Voltar para menu principal";
-        cout << endl << "1 - Abrir pasta";
-        cout << endl << "2 - Voltar pasta";
-        cout << endl << "3 - Add arquivo";
-        cout << endl << "4 - Criar pasta";
-        cout << endl;
-        cin >> opcao;
+            cout << endl << "0 - Voltar para menu principal";
+            cout << endl << "1 - Abrir pasta";
+            cout << endl << "2 - Voltar pasta";
+            cout << endl << "3 - Add arquivo";
+            cout << endl << "4 - Criar pasta";
+            cout << endl << "5 - Mostrar toda a FAT";
+            cout << endl;
+            cin >> opcao;
 
-        switch (opcao) {
-            case 1: {
-                cout << "\tInforme o indice da pasta a ser aberta: ";
-                int indice;
-                cin >> indice;
+            switch (opcao) {
+                case 1: {
+                    cout << "\tInforme o indice da pasta a ser aberta: ";
+                    int indice;
+                    cin >> indice;
 
-                QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
-                EntradaDiretorio ed = entradas.at(indice);
-                uint fatPos = ed.getPrimeiroCluster();
-                this->exibirDiretorio(fatPos);
+                    QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
+                    EntradaDiretorio ed = entradas.at(indice);
+                    uint fatPos = ed.getPrimeiroCluster();
+                    this->exibirDiretorio(fatPos);
 
-                //this->entradas.a
+                    //this->entradas.a
 
-                // pegar endereco cluster de destino
-                // abrir endereco
-                break;
+                    // pegar endereco cluster de destino
+                    // abrir endereco
+                    break;
+                }
+                case 2: {
+                    cout << endl;
+                    // pegar endereco cluster destino (pasta pai)
+                    // abrir endereco
+                    break;
+                }
+                case 3: {
+                    cout << "Informe o nome do arquivo: ";
+                    string arqNome;
+                    cin >> arqNome;
+                    QByteArray arq = rw.lerArquivo(QString::fromStdString(arqNome));
+                    addArquivo(arq, arqNome);
+                    this->salvaDisco();
+                    break;
+                }
+                case 4: {
+                    // informar nome
+                    // achar cluster vazio
+                    // criar nova pasta
+                    // setar cluster
+                    break;
+                }
+                case 5: {
+                    this->disco.mostraFat();
+                }
             }
-            case 2: {
-                cout << endl;
-                // pegar endereco cluster destino (pasta pai)
-                // abrir endereco
-                break;
-            }
-            case 3: {
-                cout << "Informe o nome do arquivo: ";
-                string arqNome;
-                cin >> arqNome;
-                QByteArray arq = rw.lerArquivo(QString::fromStdString(arqNome));
-                addArquivo(arq, arqNome);
-                break;
-            }
-            case 4: {
-                // informar nome
-                // achar cluster vazio
-                // criar nova pasta
-                // setar cluster
-                break;
-            }
-        }
-
-
         }
         // criar pasta
-
-
-
 
     }
 }
@@ -180,17 +181,15 @@ void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
 
     int posProxCluster;
     for (int i = 0; i < qtdCluster; i++) {
-        this->disco.getFat().setPosicao(posCluster, -1);
-        this->disco.getDados().setCluster(posCluster, arquivoFragmentado.at(i));
+        this->disco.setPosicaoFat(posCluster, -1);
+        this->disco.setClusterDados(posCluster, arquivoFragmentado.at(i));
         if (i <(qtdCluster-1)) {
             posProxCluster = this->disco.getFat().achaPrimeiroLivre();
-            this->disco.getFat().setPosicao(posCluster, posProxCluster);
+            this->disco.setPosicaoFat(posCluster, posProxCluster);
             posCluster = posProxCluster;
         }
     }
 
-    // preencher fat
-    // arrumar fat
 }
 
 QList<QByteArray> Gerenciador::fragmentaArquivo(QByteArray arquivo) {
@@ -226,6 +225,12 @@ EntradaDiretorio Gerenciador::criaEntradaArquivo(QByteArray arquivo, QString nom
     EntradaDiretorio ed(nome, extensao, arquivo.size(), cluster, true);
 
     return ed;
+}
+
+void Gerenciador::salvaDisco() {
+    QByteArray disco;
+    disco = this->disco.toByteArray();
+    rw.gravaArquivo(this->nomeDisco, disco);
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {

@@ -25,6 +25,8 @@ public:
     void formatar();
     QByteArray getTable();
 
+    void exibeFat();
+
 };
 
 #endif // FAT_H

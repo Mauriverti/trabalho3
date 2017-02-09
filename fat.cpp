@@ -22,7 +22,7 @@ int Fat::getPosicao(uint posicao) {
 void Fat::setPosicao(uint posicao, int valor) {
     QByteArray bvalor;
     bvalor.insert(0, (char*) &valor, 4);
-    this->tabela.replace(calculaPosicaoNaTabela(posicao), 4, bvalor);
+    this->tabela = this->tabela.replace(calculaPosicaoNaTabela(posicao), 4, bvalor);
 }
 
 uint Fat::achaPrimeiroLivre() {
@@ -35,7 +35,8 @@ uint Fat::achaPrimeiroLivre() {
 }
 
 bool Fat::temEspaco(int qtdClusters) {
-    int tamanho = this->tabela.size();
+    int tamanho = (this->tabela.size()/4);      // dividido por 4 pois um int tem 4 bytes
+
     int posicoesLivres = 0;
     for (uint i = 0; i < tamanho || posicoesLivres == qtdClusters; i++) {
         int valor = getPosicao(i);
@@ -61,4 +62,18 @@ void Fat::formatar() {
 
 QByteArray Fat::getTable() {
     return this->tabela;
+}
+
+void Fat::exibeFat() {
+
+    int tamanho = (this->tabela.size()/4);      // dividido por 4 pois um int tem 4 bytes
+
+    cout << endl << "FAT";
+    cout << endl << "1\t2\t3\t4\t5\t6\t7\t8\t9\t10";
+    cout << endl << "----------------------------------------------------------------------------";
+
+    for (int i = 0; i < tamanho; i++) {
+        if (i%10 == 0) cout << endl;
+        cout << getPosicao(i) << "\t";
+    }
 }
