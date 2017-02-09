@@ -24,6 +24,7 @@ private:
     EntradaDiretorio criaEntradaArquivo(QByteArray arquivo, QString nome, int cluster);
 
     void salvaDisco();
+    void atualizaDiretorio();
 
 public:
     Gerenciador();

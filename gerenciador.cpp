@@ -74,6 +74,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
             cout << endl << "3 - Add arquivo";
             cout << endl << "4 - Criar pasta";
             cout << endl << "5 - Mostrar toda a FAT";
+            cout << endl << "6 - Modificar FAT";
             cout << endl;
             cin >> opcao;
 
@@ -117,7 +118,36 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                     break;
                 }
                 case 5: {
+                    cout << "Informe o nome do arquivo que deseja verificar";
+                    string nome;
+                    cin >> nome;
+                    // procurar no diretorio atual por arquivo
+                    // pegar cluster inicial e tamanho do arquivo;
+                    // calcular qtd de clusters do arquivo
+                    // comecar a varrer arquivo
+
+                    // verificar irregularidade
+                    // verificar ciclo
+                        // criar lista de inteiro com posicoes já acessadas
+                        // verificar lista a cada insercao
+                            // se ciclo aparece exatamente no ultimo cluster,       CORRECAO
+                            // se ciclo aparece apos o ultimo cluster necessario    CORRECAO
+                            // se ciclo aparece antes do ultimo cluster             ERRO FATAL
+
+                    // qtd de clusters > necessario                                 CORRECAO
+                    // qtd de clusters < necessario                                 ERRO FATAL
+                }
+                case 6: {
                     this->disco.mostraFat();
+                }
+                case 7: {
+                    cout << endl << "Informe a posicao e o valor que deseja alterar";
+                    int pos, valor;
+                    cout << endl << "Posicao: ";
+                    cin >> pos;
+                    cout << endl << "Valor: ";
+                    cin >> valor;
+                    this->disco.setPosicaoFat(pos, valor);
                 }
             }
         }
@@ -164,8 +194,6 @@ int Gerenciador::calculaCluster(int tamanhoArq) {
 }
 
 void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
-
-
     int tamanhoArq = arquivo.size();
     int qtdCluster = calculaCluster(tamanhoArq);
     if (!this->disco.getFat().temEspaco(qtdCluster)) {
@@ -178,6 +206,7 @@ void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
     EntradaDiretorio ed = criaEntradaArquivo(arquivo, QString::fromStdString(nomeArquivo), posCluster);
 
     this->diretorioAtual.addEntrada(ed);
+    this->atualizaDiretorio();
 
     int posProxCluster;
     for (int i = 0; i < qtdCluster; i++) {
@@ -189,7 +218,6 @@ void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
             posCluster = posProxCluster;
         }
     }
-
 }
 
 QList<QByteArray> Gerenciador::fragmentaArquivo(QByteArray arquivo) {
@@ -231,6 +259,12 @@ void Gerenciador::salvaDisco() {
     QByteArray disco;
     disco = this->disco.toByteArray();
     rw.gravaArquivo(this->nomeDisco, disco);
+}
+
+void Gerenciador::atualizaDiretorio() {
+    int pos = this->diretorioAtual.getClusterAtual();
+    QByteArray dir = this->diretorioAtual.toByteArray();
+    this->disco.setClusterDados(pos, dir);
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {

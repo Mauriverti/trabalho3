@@ -31,7 +31,6 @@ Diretorio::Diretorio(uint atual, uint pai) {
 }
 
 Diretorio::Diretorio(QByteArray byteArray) {
-    cout << endl << "log - Abrir diretorio";
     uint deslocamento = 0;
     this->clusterAtual = *((uint *) byteArray.mid(deslocamento,4).data());
     deslocamento += 4;
@@ -54,17 +53,22 @@ QList<EntradaDiretorio> Diretorio::getEntradas() {
     return this->entradas;
 }
 
+uint Diretorio::getClusterAtual() {
+    return this->clusterAtual;
+}
+
+uint Diretorio::getClusterPai() {
+    return this->clusterPai;
+}
+
 void Diretorio::addEntrada(EntradaDiretorio ed) {
     this->entradas.append(ed);
 }
 
 void Diretorio::exibeConteudo() {
-    cout << endl << "log - Exibe Conteudo";
-
     for (int i = 0; i < this->entradas.size(); i++) {
         EntradaDiretorio ed = this->entradas.at(i);
         cout << endl << i << " - " << ed.toString();
-
     }
 }
 

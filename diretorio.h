@@ -23,6 +23,8 @@ public:
     Diretorio(QByteArray byteArray);
 
     QList<EntradaDiretorio> getEntradas();
+    uint getClusterAtual();
+    uint getClusterPai();
     void addEntrada(EntradaDiretorio ed);
 
     void exibeConteudo();
