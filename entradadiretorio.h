@@ -5,6 +5,7 @@
 #include <iostream>
 #include <QByteArray>
 #include <padroes.h>
+#include <QString>
 
 using namespace std;
 
@@ -13,23 +14,20 @@ class EntradaDiretorio {
 private:
     static Padroes p;
 
-    char* nome;                 // [16]
-    char* extensao;             // [3]
+    QString nome;               // 16
+    QString extensao;           // 3
     uint primeiroCluster;
     uint tamanhoArquivo;
     bool ehAarquivo;            // true se for arquivo, false se for pasta
-    string normalizaString(string str, uint tamanhoMaximo);
-    char* string2charVet(string str, uint tamanho);
-
-    char* parseNome(string str, uint tamanho);
+    QString normalizaString(QString str, uint tamanhoMaximo);
 
 public:
     EntradaDiretorio();
-    EntradaDiretorio(const char* nome, const char* extensao, uint tamanhoArquivo, uint primeiroCluster, bool ehArquivo);
+    EntradaDiretorio(QString nome, QString extensao, uint tamanhoArquivo, uint primeiroCluster, bool ehArquivo);
     EntradaDiretorio(QByteArray byteArray);
 
     bool entradaValida();
-    string toString();
+    QString toString();
 
     uint getPrimeiroCluster();
 

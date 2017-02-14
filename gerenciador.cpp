@@ -60,11 +60,8 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
     if (statusCluster == 0) {
         cout << endl << "ERRO: cluster vazio";
     } else {
-        exibirPadrao();
         this->diretorioAtual = Diretorio(disco.getDados().getCluster(posicaoCluster));
         this->diretorioAtual.exibeConteudo();
-
-        //    FAZER MENU AQUI, FAZER COPIA DE ARQUIVO PRA DENTRO E PRA FORA
 
         int opcao = -1;
         while (opcao != 0) {
@@ -73,8 +70,10 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
             cout << endl << "2 - Voltar pasta";
             cout << endl << "3 - Add arquivo";
             cout << endl << "4 - Criar pasta";
-            cout << endl << "5 - Mostrar toda a FAT";
-            cout << endl << "6 - Modificar FAT";
+            cout << endl << "5 - Corrigir arquivo";
+            cout << endl << "6 - Mostrar toda a FAT";
+            cout << endl << "7 - Modificar FAT";
+            cout << endl << "8 - Mostrar conteudo da pasta atual";
             cout << endl;
             cin >> opcao;
 
@@ -149,6 +148,12 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                     cin >> valor;
                     this->disco.setPosicaoFat(pos, valor);
                 }
+                case 8: {
+                    QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
+                    for (EntradaDiretorio ed: entradas) {
+                        cout << endl << ed.toString().toStdString();
+                    }
+                }
             }
         }
         // criar pasta
@@ -179,12 +184,6 @@ QByteArray Gerenciador::criaVetorVazio(int tamanho, bool emKb) {
     }
 
     return b;
-}
-
-void Gerenciador::exibirPadrao() {
-    cout << endl << "nome\t\t\ttamanho";
-    cout << endl << ".";
-    cout << endl << "..";
 }
 
 int Gerenciador::calculaCluster(int tamanhoArq) {
@@ -248,8 +247,8 @@ QByteArray Gerenciador::preencheCluster(QByteArray ba, int tamanhoAtual, int tam
 
 EntradaDiretorio Gerenciador::criaEntradaArquivo(QByteArray arquivo, QString nomeArq, int cluster) {
     int splitPos = nomeArq.lastIndexOf('.');
-    const char* nome = nomeArq.left(splitPos).toStdString().c_str();
-    const char* extensao = nomeArq.mid(splitPos+1).toStdString().c_str();
+    QString nome = nomeArq.left(splitPos);
+    QString extensao = nomeArq.mid(splitPos+1);
     EntradaDiretorio ed(nome, extensao, arquivo.size(), cluster, true);
 
     return ed;

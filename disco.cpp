@@ -36,7 +36,6 @@ void Disco::formatar() {
 }
 
 QByteArray Disco::toByteArray() {
-    cout << endl << "toByteArray";
     QByteArray b;
 
     b.insert(0, cabecalho.toByteArray());

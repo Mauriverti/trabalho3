@@ -16,7 +16,6 @@ private:
     int getTamanhoEmKBytes(int tamanho, string tipoTamanho);
     QByteArray criaVetorVazio(int tamanho, bool emKb);
 
-    void exibirPadrao();
     int calculaCluster(int tamanhoArq);
     void addArquivo(QByteArray arquivo, string nomeArquivo);
     QList<QByteArray> fragmentaArquivo(QByteArray arquivo);

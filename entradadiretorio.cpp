@@ -2,9 +2,9 @@
 
 EntradaDiretorio::EntradaDiretorio() {}
 
-EntradaDiretorio::EntradaDiretorio(const char *nome, const char *extensao, uint tamanhoArquivo, uint primeiroCluster, bool ehArquivo) {
-    this->nome = parseNome(nome, p.tamanhoNomeArquivo);
-    this->extensao = parseNome(extensao, p.tamanhoExtensaoArquivo);
+EntradaDiretorio::EntradaDiretorio(QString nome, QString extensao, uint tamanhoArquivo, uint primeiroCluster, bool ehArquivo) {
+    this->nome = normalizaString(nome, p.tamanhoNomeArquivo);
+    this->extensao = normalizaString(extensao, p.tamanhoExtensaoArquivo);
     this->tamanhoArquivo = tamanhoArquivo;
     this->primeiroCluster = primeiroCluster;
     this->ehAarquivo = ehArquivo;
@@ -38,18 +38,21 @@ bool EntradaDiretorio::entradaValida() {
     return false;
 }
 
-string EntradaDiretorio::toString() {
-    string str(this->nome);
+QString EntradaDiretorio::toString() {
+    QString str = this->nome;
     if (this->ehAarquivo) {
-        string ext(this->extensao);      // gambiarra pra converter char* em string
-        str +=  "." + ext
-                + "\t\t1c: " + to_string(this->primeiroCluster)
-                + "\t\ttamanho: " + to_string(this->tamanhoArquivo) + " bytes"
-                + "\n";
+        str.append(".");
+        str.append(this->extensao);
+        str.append("\t\t1c: ");
+        str.append(QString::number(this->primeiroCluster));
+        str.append("\t\ttamanho: ");
+        str.append(QString::number(this->tamanhoArquivo));
+        str.append(" bytes\n");
     }
     else {
-        str +=  "\t\t1cluster: " + to_string(this->primeiroCluster)
-                + "\n";
+        str.append("\t\t1cluster: ");
+        str.append(this->primeiroCluster);
+        str.append("\n");
     }
 
     return str;
@@ -59,41 +62,21 @@ uint EntradaDiretorio::getPrimeiroCluster() {
     return this->primeiroCluster;
 }
 
-string EntradaDiretorio::normalizaString(string str, uint tamanho) {
+QString EntradaDiretorio::normalizaString(QString str, uint tamanho) {
 
-    uint comprimento = str.length();
-    if (comprimento > tamanho) {
-        str.substr(0, tamanho);
+    uint length = str.length();
+    if (length > tamanho) {
+        str.truncate(tamanho);
     } else {
-        if (comprimento < tamanho) {
-            for (;comprimento < tamanho; comprimento++) {
-                char zero = 0;
-                str.push_back(zero);
-            }
+        for (uint i = length; i < tamanho; i++) {
+            str.prepend(' ');
         }
     }
     return str;
 }
 
-char* EntradaDiretorio::string2charVet(string str, uint tamanho) {
-    char* c = new char[tamanho];
-    for (uint i = 0; i < tamanho; i++) {
-        c[i] = str.at(i);
-    }
-
-    return c;
-}
-
-char *EntradaDiretorio::parseNome(string str, uint tamanho) {
-    str = normalizaString(str, tamanho);
-    return string2charVet(str, tamanho);
-}
-
-
-
 QByteArray EntradaDiretorio::toByteArray() {
     QByteArray b;
-
 
     int deslocamento = 0;
     b.insert(0, (char*) &this->nome, p.tamanhoNomeArquivo);

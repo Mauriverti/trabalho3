@@ -1,5 +1,13 @@
 #include "diretorio.h"
 
+QByteArray Diretorio::entradasToByteArray() {
+    QByteArray byteArray;
+    for (EntradaDiretorio ed: this->entradas) {
+        byteArray.append(ed.toByteArray());
+    }
+    return byteArray;
+}
+
 QByteArray Diretorio::completaLista() {
 
     QByteArray entradaVazia = geraEntradaVazia();
@@ -66,14 +74,21 @@ void Diretorio::addEntrada(EntradaDiretorio ed) {
 }
 
 void Diretorio::exibeConteudo() {
-    for (int i = 0; i < this->entradas.size(); i++) {
-        EntradaDiretorio ed = this->entradas.at(i);
-        cout << endl << i << " - " << ed.toString();
+    cout << endl << endl << "Cluster atual: " << this->clusterAtual;
+    cout << endl << "Cluster pai: " << this->clusterPai;
+
+    this->exibeEntrada();
+
+    cout << endl << endl;
+}
+
+void Diretorio::exibeEntrada() {
+    for (EntradaDiretorio ed: this->entradas) {
+        cout << endl << ed.toString().toStdString();
     }
 }
 
 QByteArray Diretorio::toByteArray() {
-    cout << endl << "Diretorio toByteArray";
     QByteArray b;
 
     b.insert(0, (char*) &this->clusterAtual, 4);

@@ -69,7 +69,7 @@ void Fat::exibeFat() {
     int tamanho = (this->tabela.size()/4);      // dividido por 4 pois um int tem 4 bytes
 
     cout << endl << "FAT";
-    cout << endl << "\t 1\t2\t3\t4\t5\t6\t7\t8\t9\t10";
+    cout << endl << "\t 0\t1\t2\t3\t4\t5\t6\t7\t8\t9";
     cout << endl << "-------------------------------------------------------------------------------------";
 
     for (int i = 0; i < tamanho; i++) {

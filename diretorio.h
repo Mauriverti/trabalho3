@@ -28,6 +28,7 @@ public:
     void addEntrada(EntradaDiretorio ed);
 
     void exibeConteudo();
+    void exibeEntrada();
     QByteArray toByteArray();
 };
 
