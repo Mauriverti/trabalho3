@@ -96,8 +96,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                 }
                 case 2: {
                     cout << endl;
-                    // pegar endereco cluster destino (pasta pai)
-                    // abrir endereco
+                    this->exibirDiretorio(this->diretorioAtual.getClusterPai());
                     break;
                 }
                 case 3: {
@@ -135,9 +134,11 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
 
                     // qtd de clusters > necessario                                 CORRECAO
                     // qtd de clusters < necessario                                 ERRO FATAL
+                    break;
                 }
                 case 6: {
                     this->disco.mostraFat();
+                    break;
                 }
                 case 7: {
                     cout << endl << "Informe a posicao e o valor que deseja alterar";
@@ -147,17 +148,17 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                     cout << endl << "Valor: ";
                     cin >> valor;
                     this->disco.setPosicaoFat(pos, valor);
+                    break;
                 }
                 case 8: {
                     QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
                     for (EntradaDiretorio ed: entradas) {
                         cout << endl << ed.toString().toStdString();
                     }
+                    break;
                 }
             }
         }
-        // criar pasta
-
     }
 }
 

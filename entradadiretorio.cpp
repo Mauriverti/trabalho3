@@ -17,8 +17,9 @@ EntradaDiretorio::EntradaDiretorio(QByteArray byteArray) {
     }
 
     uint deslocamento = 0;
-    this->nome = &*((char *) byteArray.mid(deslocamento, p.tamanhoNomeArquivo).data());
-    //this->nome = *((char*) byteArray.mid(deslocamento,p.tamanhoNomeArquivo).data());
+    QString s;
+
+    this->nome = &*((char*) byteArray.mid(deslocamento,p.tamanhoNomeArquivo).data());
     deslocamento += p.tamanhoNomeArquivo;
     this->extensao = &*((char *) byteArray.mid(deslocamento, p.tamanhoExtensaoArquivo).data());
 //    this->extensao = *((char*) byteArray.mid(deslocamento,p.tamanhoExtensaoArquivo).data());
@@ -33,13 +34,13 @@ EntradaDiretorio::EntradaDiretorio(QByteArray byteArray) {
 
 bool EntradaDiretorio::entradaValida() {
 
-
+    if (this->nome.size() && (this->primeiroCluster != 0)) return true;
 
     return false;
 }
 
 QString EntradaDiretorio::toString() {
-    QString str = this->nome;
+    QString str = this->nome.trimmed();
     if (this->ehAarquivo) {
         str.append(".");
         str.append(this->extensao);
@@ -69,7 +70,7 @@ QString EntradaDiretorio::normalizaString(QString str, uint tamanho) {
         str.truncate(tamanho);
     } else {
         for (uint i = length; i < tamanho; i++) {
-            str.prepend(' ');
+            str.append(' ');
         }
     }
     return str;
@@ -79,7 +80,8 @@ QByteArray EntradaDiretorio::toByteArray() {
     QByteArray b;
 
     int deslocamento = 0;
-    b.insert(0, (char*) &this->nome, p.tamanhoNomeArquivo);
+    const char* s = this->nome.toStdString().c_str();
+    b.insert(0, (char*) &s, p.tamanhoNomeArquivo);
     deslocamento += p.tamanhoNomeArquivo;
 
     b.insert(deslocamento, (char*) &this->extensao, p.tamanhoExtensaoArquivo);

@@ -8,23 +8,24 @@ QByteArray Diretorio::entradasToByteArray() {
     return byteArray;
 }
 
-QByteArray Diretorio::completaLista() {
+//QByteArray Diretorio::completaLista() {
 
-    QByteArray entradaVazia = geraEntradaVazia();
-    QByteArray b;
-    uint c = p.quantidadeEntradasDiretorio;
-    for (uint inicio = this->entradas.size(); inicio < c; inicio++) {
-        b.insert(inicio*p.tamanhoEntradaDiretorio, entradaVazia);
-    }
-    return b;
-}
+//    QByteArray entradaVazia = geraEntradaVazia(p.tamanhoEntradaDiretorio);
+//    QByteArray b;
+//    uint c = p.quantidadeEntradasDiretorio;
+//    for (uint inicio = this->entradas.size(); inicio < c; inicio++) {
+//        b.insert(inicio*p.tamanhoEntradaDiretorio, entradaVazia);
+//    }
+//    return b;
+//}
 
-QByteArray Diretorio::geraEntradaVazia() {
+
+QByteArray Diretorio::geraEntradaVazia(uint tamanho) {
 
     QByteArray b;
     char zero = 0;
 
-    for (uint i = 0; i < (p.tamanhoEntradaDiretorio); i++) {
+    for (uint i = 0; i < (tamanho); i++) {
         b.insert(i, (char*) &zero, 1);
     }
 
@@ -103,9 +104,7 @@ QByteArray Diretorio::toByteArray() {
         deslocamento += p.tamanhoEntradaDiretorio;
     }
 
-    b.insert(deslocamento, completaLista());
-
-    cout << endl <<  "tamanho: " << b.size();
+    b.append(this->geraEntradaVazia(p.tamanhoCluster-deslocamento));
 
     return b;
 }

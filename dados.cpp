@@ -44,6 +44,8 @@ void Dados::setCluster(uint posicao, QByteArray byteArray) {
         cout << endl << "Posicao invalida do cluster";
         return;
     } else {
+        int tamanhoClusterNovo = byteArray.size();
+        int tamanhoCluster = p.tamanhoCluster;
         if (byteArray.size() != p.tamanhoCluster) {
             cout << endl << "Tamanho do cluster invalido";
             return;

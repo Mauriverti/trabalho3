@@ -15,7 +15,7 @@ private:
 
     QByteArray entradasToByteArray();
     QByteArray completaLista();
-    QByteArray geraEntradaVazia();
+    QByteArray geraEntradaVazia(uint tamanho);
 
 public:
     Diretorio();
