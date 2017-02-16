@@ -116,12 +116,19 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                     break;
                 }
                 case 5: {
-                    cout << "Informe o nome do arquivo que deseja verificar";
-                    string nome;
-                    cin >> nome;
-                    // procurar no diretorio atual por arquivo
-                    // pegar cluster inicial e tamanho do arquivo;
-                    // calcular qtd de clusters do arquivo
+                    QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
+
+                    for (EntradaDiretorio ed: entradas) {
+                        if (ed.getEhArquivo()) {
+                            if (this->validaArquivo(ed.getTamanhoArquivo(), ed.getPrimeiroCluster())) {
+                                cout << endl << ed.getFullname().toStdString() << " esta OK!";
+                            } else {
+                                cout << endl << ed.getFullname().toStdString() << " esta Corrompido!";
+                            }
+                        }
+                    }
+                    cout << endl << endl;
+
                     // comecar a varrer arquivo
 
                     // verificar irregularidade
@@ -253,6 +260,12 @@ EntradaDiretorio Gerenciador::criaEntradaArquivo(QByteArray arquivo, QString nom
     EntradaDiretorio ed(nome, extensao, arquivo.size(), cluster, true);
 
     return ed;
+}
+
+bool Gerenciador::validaArquivo(uint tamanho, uint primeiroCluster) {
+    uint qtdCluster = this->calculaCluster(tamanho);
+
+    return this->disco.getFat().checaArquivo(primeiroCluster, qtdCluster);
 }
 
 void Gerenciador::salvaDisco() {

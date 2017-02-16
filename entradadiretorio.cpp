@@ -19,7 +19,7 @@ EntradaDiretorio::EntradaDiretorio(QByteArray byteArray) {
     uint deslocamento = 0;
 
     this->nome = &*((char*) byteArray.mid(deslocamento,p.tamanhoNomeArquivo).data());
-    deslocamento += p.tamanhoNomeArquivo;
+    deslocamento = p.tamanhoNomeArquivo;
 
     this->extensao = &*((char *) byteArray.mid(deslocamento, p.tamanhoExtensaoArquivo).data());
     deslocamento += p.tamanhoExtensaoArquivo;
@@ -108,4 +108,24 @@ QByteArray EntradaDiretorio::toByteArray() {
 
     return b;
 
+}
+
+QString EntradaDiretorio::getNome() {
+    return this->nome;
+}
+
+bool EntradaDiretorio::getEhArquivo() {
+    return this->ehAarquivo;
+}
+
+uint EntradaDiretorio::getTamanhoArquivo() {
+    return this->tamanhoArquivo;
+}
+
+QString EntradaDiretorio::getFullname() {
+    if (this->ehAarquivo) {
+        return this->nome.trimmed() + "." + this->extensao.trimmed();
+    } else {
+        return this->nome.trimmed();
+    }
 }

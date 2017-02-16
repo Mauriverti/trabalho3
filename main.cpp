@@ -14,7 +14,7 @@ int main() {
         cout << "1 - Ler disco" << endl;
         cout << "2 - Formatar disco" << endl;
         cout << "3 - Acessar disco" << endl;
-//        cout << "4 - criar disco" << endl;
+        cout << "4 - criar disco" << endl;
         cin >> opcao;
 
         switch(opcao) {

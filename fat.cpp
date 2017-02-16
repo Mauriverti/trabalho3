@@ -35,7 +35,7 @@ uint Fat::achaPrimeiroLivre() {
 }
 
 bool Fat::temEspaco(int qtdClusters) {
-    int tamanho = (this->tabela.size()/4);      // dividido por 4 pois um int tem 4 bytes
+    uint tamanho = (this->tabela.size()/4);      // dividido por 4 pois um int tem 4 bytes
 
     int posicoesLivres = 0;
     for (uint i = 0; i < tamanho || posicoesLivres == qtdClusters; i++) {
@@ -77,4 +77,63 @@ void Fat::exibeFat() {
         cout << getPosicao(i) << "\t";
     }
     cout << endl;
+}
+
+bool Fat::checaArquivo(uint primeiroCluster, uint qtdCluster) {
+
+    uint maxClusters = this->tabela.size()/4;
+    QList<uint> clustersVizitados;
+
+    uint cont = 1;
+    uint proxCluster = this->getPosicao(primeiroCluster);
+    uint clusterAtual = primeiroCluster;
+
+
+//    while ((proxCluster != -1) && (proxCluster != 0) && (cont <= maxClusters) && !(clustersVizitados.contains(proxCluster))) {
+//        clustersVizitados.append(proxCluster);
+//        cont++;
+//        proxCluster = this->getPosicao(proxCluster);
+//    }
+    while (true) {
+        if (proxCluster == -1) {
+            if (cont == qtdCluster) return true;
+            else {
+                cout << endl << "Arquivo com clusters faltando / sobrando - impossivel corrigir";
+            }
+            return false;
+        }
+        if (proxCluster == 0) {
+            cout << endl << "Erro no final de Arquivo";
+            if (cont == qtdCluster) {
+                cout << endl << "Tentativa de correcao";
+                this->setPosicao(clusterAtual, -1);
+                return true;
+            } else {
+                cout << endl << "Impossivel corrigir";
+            } return false;
+        }
+        if (cont > maxClusters) {
+            cout << endl << "Erro - Arquivo muito grande - impossivel corrigir";
+            return false;
+        }
+        if (clustersVizitados.contains(proxCluster)) {
+            cout << endl << "Erro - Arquivo em ciclo";
+            if (cont == qtdCluster) {
+                cout << endl << "Tentativa de correcao";
+                this->setPosicao(clusterAtual, -1);
+                return true;
+            } else {
+                cout << endl << "Impossivel corrigir";
+            } return false;
+        }
+
+        clustersVizitados.append(clusterAtual);
+        cont++;
+        clusterAtual = proxCluster;
+        proxCluster = this->getPosicao(proxCluster);
+
+    }
+
+
+    return false;
 }

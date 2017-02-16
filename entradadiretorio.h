@@ -33,6 +33,13 @@ public:
     uint getPrimeiroCluster();
 
     QByteArray toByteArray();
+
+    QString getNome();
+    bool getEhArquivo();
+    uint getTamanhoArquivo();
+
+    QString getFullname();
+
 };
 
 #endif // ENTRADADIRETORIO_H

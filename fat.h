@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <QByteArray>
+#include <QList>
+#include "padroes.h"
 
 using namespace std;
 
@@ -12,6 +14,7 @@ class Fat {
 private:
     QByteArray tabela;
 
+    Padroes p;
     uint calculaPosicaoNaTabela(uint posicao);
 
 public:
@@ -26,6 +29,8 @@ public:
     QByteArray getTable();
 
     void exibeFat();
+
+    bool checaArquivo(uint primeiroCluster, uint qtdCluster);
 
 };
 

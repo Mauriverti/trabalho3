@@ -21,6 +21,7 @@ private:
     QList<QByteArray> fragmentaArquivo(QByteArray arquivo);
     QByteArray preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal);
     EntradaDiretorio criaEntradaArquivo(QByteArray arquivo, QString nome, int cluster);
+    bool validaArquivo(uint tamanho, uint primeiroCluster);
 
     void salvaDisco();
     void atualizaDiretorio();
