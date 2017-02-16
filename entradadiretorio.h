@@ -20,6 +20,7 @@ private:
     uint tamanhoArquivo;
     bool ehAarquivo;            // true se for arquivo, false se for pasta
     QString normalizaString(QString str, uint tamanhoMaximo);
+    QByteArray qString2ByteArray(QString s);
 
 public:
     EntradaDiretorio();
