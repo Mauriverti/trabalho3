@@ -22,6 +22,7 @@ private:
     QByteArray preencheCluster(QByteArray ba, int tamanhoAtual, int tamanhoFinal);
     EntradaDiretorio criaEntradaArquivo(QByteArray arquivo, QString nome, int cluster);
     bool validaArquivo(uint tamanho, uint primeiroCluster);
+    void extraiArquivo(EntradaDiretorio ed);
 
     void salvaDisco();
     void atualizaDiretorio();

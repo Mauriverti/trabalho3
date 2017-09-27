@@ -80,8 +80,6 @@ void Cabecalho::setTamanhoDados(uint tamanhoDados) {
 void Cabecalho::abrir(QByteArray byteArray) {
     this->formato =         *((ushort *) byteArray.mid(0,2).data());
 
-
-
     this->tamanhoCluster =  *((uint *) byteArray.mid(2,4).data());
     this->tamanhoDisco =    *((uint *) byteArray.mid(6,4).data());
     this->inicioFAT =       *((uint *) byteArray.mid(10,4).data());

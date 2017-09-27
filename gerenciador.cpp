@@ -74,6 +74,7 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
             cout << endl << "6 - Mostrar toda a FAT";
             cout << endl << "7 - Modificar FAT";
             cout << endl << "8 - Mostrar conteudo da pasta atual";
+            cout << endl << "9 - Extrair arquivo";
             cout << endl;
             cin >> opcao;
 
@@ -164,6 +165,21 @@ void Gerenciador::exibirDiretorio(uint posicaoCluster) {
                     }
                     break;
                 }
+                case 9: {
+                    QString nomeArq;
+                    cout << endl << "Informe o nome do arquivo que deseja extrair: ";
+                    string nome;
+                    cin >> nome;
+                    nomeArq = QString::fromStdString(nome);
+                    QList<EntradaDiretorio> entradas = this->diretorioAtual.getEntradas();
+                    for (EntradaDiretorio ed: entradas) {
+                        if (ed.getFullname() == nomeArq) {
+                            this->extraiArquivo(ed);
+                            break;
+                        }
+                    }
+                    cout << endl << "Arquivo nao existe neste diretorio";
+                }
             }
         }
     }
@@ -225,6 +241,7 @@ void Gerenciador::addArquivo(QByteArray arquivo, string nomeArquivo) {
             posCluster = posProxCluster;
         }
     }
+    this->atualizaDiretorio();
 }
 
 QList<QByteArray> Gerenciador::fragmentaArquivo(QByteArray arquivo) {
@@ -278,6 +295,22 @@ void Gerenciador::atualizaDiretorio() {
     int pos = this->diretorioAtual.getClusterAtual();
     QByteArray dir = this->diretorioAtual.toByteArray();
     this->disco.setClusterDados(pos, dir);
+}
+
+void Gerenciador::extraiArquivo(EntradaDiretorio ed) {
+    QString nomeSaida = ed.getFullname();
+    QByteArray arquivoSaida;
+
+    int cluster = ed.getPrimeiroCluster();
+
+    while (cluster != -1) {
+        arquivoSaida.append(this->disco.getDados().getCluster(cluster));
+        cluster = this->disco.getFat().getPosicao(cluster);
+    }
+
+    arquivoSaida = arquivoSaida.mid(0, ed.getTamanhoArquivo());    // remove os bytes 0 no final do arquivo
+
+    this->rw.gravaArquivo(nomeSaida, arquivoSaida);
 }
 
 int Gerenciador::getTamanhoEmKBytes(int tamanho, string tipoTamanho) {
